@@ -1,0 +1,16 @@
+The commands --set-upstream and --set-upstream-to are functionally equivalent. They both serve to establish a tracking relationship between a local Git branch and a remote branch. The choice between them is largely a matter of personal preference.
+
+Here's a breakdown of their usage:
+
+git branch --set-upstream origin main: This is a shorthand for the longer form git branch --set-upstream-to=origin/main. It's more concise and easier to type.
+git branch --set-upstream-to=origin/main: This is the explicit form, providing more clarity about the operation.
+
+git reset --soft HEAD~1 -> return to the last commit
+
+
+
+
+ssh:
+1. generate shh keys: https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
+2. find ssh public key
+3. add public key to github: settings -> ssh key
