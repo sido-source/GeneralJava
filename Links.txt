@@ -1,1 +1,3 @@
 https://docs.oracle.com/javase/tutorial/essential/exceptions/chained.html
+
+https://stackify.com/streams-guide-java-8/

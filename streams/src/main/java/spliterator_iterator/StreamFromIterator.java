@@ -1,7 +1,7 @@
+package spliterator_iterator;
+
 import java.util.Arrays;
 import java.util.Iterator;
-import java.util.Spliterators;
-import java.util.stream.StreamSupport;
 
 public class StreamFromIterator {
 

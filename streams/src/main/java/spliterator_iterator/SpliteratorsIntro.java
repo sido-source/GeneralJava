@@ -1,3 +1,5 @@
+package spliterator_iterator;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Spliterator;

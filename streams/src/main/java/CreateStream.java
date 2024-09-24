@@ -15,8 +15,6 @@ public class CreateStream {
          */
 
 
-
-
         // primitives
 
         int[] intArray = {1, 2, 3};

@@ -1,0 +1,19 @@
+1. Flattening nested structures: Flattening lists of lists, arrays of arrays, or streams of streams.
+
+    The concept behind using Arrays.stream() and flatMap() is simple:
+        - First, use stream api to take the outer collection (which could be a 2D array, list of lists, array of arrays, etc.).
+            and transform it into a 1D ordered/sequence collection
+        - Then, apply flatMap() to break down and flatten the inner structure (such as arrays, lists, sets).
+
+
+
+    2. Handling Optionals: Flattening a list of Optional values to remove empty ones.
+    3. Zipping lists: Combining elements from two lists or streams using their indices.
+    4. Cross-product: Combining two lists or streams into all possible pairs.
+    5. Filtering and Transforming: Applying complex transformations and filtering within a single stream operation.
+
+
+     Methods:
+     flatMapToInt() is used instead of flatMap() because flatMap() is designed for object streams, and flatMapToInt() is designed specifically for streams of primitive int.
+     Arrays::stream works on int[] to create an IntStream (a stream of primitive int values).
+        boxed(): This converts the primitive IntStream to a stream of boxed Integer objects, which can then be collected into a List<Integer>

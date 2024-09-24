@@ -13,6 +13,9 @@
         <module>dsa</module>
         <module>streams</module>
         <module>concurrent</module>
+        <module>collections</module>
+        <module>patterns</module>
+        <module>dsa-tasks</module>
     </modules>
 
     <properties>

@@ -1,0 +1,262 @@
+Certainly! Let's outline and describe a new mini-project that simulates a group chat system with multiple users who send messages to a shared group chat. The focus will be on handling concurrency issues like race conditions, synchronization, and using key concepts in Java multithreading.
+
+### **Project Overview**
+
+This mini-project simulates a chat system where multiple users can send messages to a shared group chat. Messages are sent either immediately or at a scheduled time. The system ensures that messages are displayed in the correct order, even if multiple users send messages simultaneously. We will use `ExecutorService` to manage message sending, `Callable` to handle message delivery and return the result, and synchronization mechanisms to prevent race conditions.
+
+### **Concepts Used**
+
+1. **Concurrency**:
+   - Managing multiple threads that represent users sending messages to the chat simultaneously.
+   - Ensuring that messages are displayed in the correct order, even when sent concurrently.
+
+2. **ExecutorService**:
+   - Used to manage a pool of threads that handle message sending concurrently.
+   - Schedules and executes tasks that represent messages being sent by users.
+
+3. **ScheduledExecutorService**:
+   - Allows scheduling messages to be sent after a specified delay.
+
+4. **Callable Interface**:
+   - Represents tasks that return a result after execution (e.g., confirmation that a message was delivered successfully).
+
+5. **Synchronization**:
+   - Ensures that the message list is updated correctly and in the right order when multiple users send messages simultaneously.
+
+6. **BlockingQueue**:
+   - Used to store the results of message deliveries in a thread-safe manner.
+
+7. **Custom Result Class** (`MessageResult`):
+   - Encapsulates the result of a message delivery, including success status, error codes (if any), and descriptive messages.
+
+### **Challenges Addressed**
+
+1. **Race Conditions**:
+   - Prevented by synchronizing access to the shared chat log when multiple users send messages at the same time.
+
+2. **Thread Safety**:
+   - Ensured by using synchronization mechanisms and thread-safe collections to manage shared resources.
+
+3. **Handling Concurrent Tasks**:
+   - Managed by using `ExecutorService` to handle the concurrent sending of messages.
+
+4. **Scheduling Tasks**:
+   - Implemented with `ScheduledExecutorService` to schedule messages to be sent at specific times.
+
+### **Class Descriptions**
+
+#### 1. **User.java**
+   - **Purpose**: Represents a user in the chat system.
+   - **Attributes**:
+     - `name`: The name of the user.
+   - **Key Methods**:
+     - `sendMessage(ChatSystem chatSystem, String message, long delay, TimeUnit unit)`: Sends a message to the chat system either immediately or after a delay.
+   - **Concurrency Handling**: Users will trigger tasks that are managed by the `ChatSystem`, which handles synchronization.
+
+#### 2. **MessageResult.java**
+   - **Purpose**: Represents the result of a message delivery.
+   - **Attributes**:
+     - `success`: Indicates whether the message was delivered successfully.
+     - `message`: A descriptive message about the delivery outcome.
+     - `errorCode`: An error code in case of failure (e.g., "Message sending failed").
+   - **Usage**: Returned by the `MessageTask` to provide detailed feedback on the result of message delivery.
+
+#### 3. **MessageTask.java**
+   - **Purpose**: Represents a task that sends a message from a user to the group chat.
+   - **Implements**: `Callable<MessageResult>`, allowing it to return a `MessageResult` after execution.
+   - **Attributes**:
+     - `user`: The user sending the message.
+     - `message`: The message content.
+     - `chatSystem`: The chat system where the message is sent.
+   - **Key Methods**:
+     - `call()`: Executes the message sending, ensuring synchronization and correct ordering in the chat log.
+   - **Concurrency Handling**: Synchronizes access to the shared chat log to prevent race conditions.
+
+#### 4. **ChatSystem.java**
+   - **Purpose**: Manages users, processes messages, and ensures they are delivered in the correct order.
+   - **Attributes**:
+     - `executor`: An `ExecutorService` to manage concurrent execution of message tasks.
+     - `messageLog`: A synchronized list of messages to ensure they are added in the correct order.
+     - `messageResults`: A `BlockingQueue` to store the results of message deliveries.
+   - **Key Methods**:
+     - `sendMessage(MessageTask task)`: Submits a message task for immediate execution.
+     - `scheduleMessage(MessageTask task, long delay, TimeUnit unit)`: Schedules a message task to be executed after a delay.
+     - `printChatLog()`: Prints the chat log, showing the order in which messages were received.
+     - `printMessageResults()`: Retrieves and prints the results of all message deliveries.
+   - **Concurrency Handling**: Manages message sending and ensures messages are stored in the correct order using synchronization.
+
+#### 5. **Main.java**
+   - **Purpose**: The entry point of the application where the chat system is tested.
+   - **Key Actions**:
+     - Creates `User` objects representing participants in the chat.
+     - Simulates sending both immediate and scheduled messages from different users.
+     - Prints the chat log and the results of each message delivery.
+
+### **Implementation**
+
+#### **User.java**
+```java
+import java.util.concurrent.TimeUnit;
+
+public class User {
+    private final String name;
+
+    public User(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void sendMessage(ChatSystem chatSystem, String message, long delay, TimeUnit unit) {
+        MessageTask task = new MessageTask(this, message, chatSystem);
+        if (delay > 0) {
+            chatSystem.scheduleMessage(task, delay, unit);
+        } else {
+            chatSystem.sendMessage(task);
+        }
+    }
+}
+```
+
+#### **MessageResult.java**
+```java
+public class MessageResult {
+    private final boolean success;
+    private final String message;
+    private final String errorCode;
+
+    public MessageResult(boolean success, String message, String errorCode) {
+        this.success = success;
+        this.message = message;
+        this.errorCode = errorCode;
+    }
+
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public String getErrorCode() {
+        return errorCode;
+    }
+
+    @Override
+    public String toString() {
+        return "MessageResult{" +
+                "success=" + success +
+                ", message='" + message + '\'' +
+                ", errorCode='" + errorCode + '\'' +
+                '}';
+    }
+}
+```
+
+#### **MessageTask.java**
+```java
+import java.util.concurrent.Callable;
+
+public class MessageTask implements Callable<MessageResult> {
+    private final User user;
+    private final String message;
+    private final ChatSystem chatSystem;
+
+    public MessageTask(User user, String message, ChatSystem chatSystem) {
+        this.user = user;
+        this.message = message;
+        this.chatSystem = chatSystem;
+    }
+
+    @Override
+    public MessageResult call() {
+        synchronized (chatSystem.getMessageLog()) {
+            try {
+                chatSystem.getMessageLog().add(user.getName() + ": " + message);
+                String successMessage = "Message from " + user.getName() + " sent: " + message;
+                System.out.println(successMessage);
+                return new MessageResult(true, successMessage, null);
+            } catch (Exception e) {
+                String errorMessage = "Message sending failed for " + user.getName() + ": " + message;
+                System.err.println(errorMessage);
+                return new MessageResult(false, errorMessage, "SEND_FAILURE");
+            }
+        }
+    }
+}
+```
+
+#### **ChatSystem.java**
+```java
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.*;
+
+public class ChatSystem {
+    private final ExecutorService executor;
+    private final List<String> messageLog;
+    private final BlockingQueue<Future<MessageResult>> messageResults;
+
+    public ChatSystem(int numberOfThreads) {
+        this.executor = Executors.newFixedThreadPool(numberOfThreads);
+        this.messageLog = new ArrayList<>();
+        this.messageResults = new LinkedBlockingQueue<>();
+    }
+
+    public List<String> getMessageLog() {
+        return messageLog;
+    }
+
+    public void sendMessage(MessageTask task) {
+        Future<MessageResult> result = executor.submit(task);
+        messageResults.add(result);
+    }
+
+    public void scheduleMessage(MessageTask task, long delay, TimeUnit unit) {
+        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+        scheduler.schedule(() -> {
+            Future<MessageResult> result = executor.submit(task);
+            messageResults.add(result);
+        }, delay, unit);
+        scheduler.shutdown();
+    }
+
+    public void printChatLog() {
+        synchronized (messageLog) {
+            System.out.println("\nChat Log:");
+            for (String msg : messageLog) {
+                System.out.println(msg);
+            }
+        }
+    }
+
+    public void printMessageResults() throws InterruptedException, ExecutionException {
+        while (!messageResults.isEmpty()) {
+            Future<MessageResult> result = messageResults.poll();
+            if (result != null) {
+                System.out.println(result.get());
+            }
+        }
+    }
+
+    public void shutdown() {
+        executor.shutdown();
+    }
+}
+```
+
+#### **Main.java**
+```java
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+
+public class Main {
+    public static void main(String[] args) throws InterruptedException, ExecutionException {
+        ChatSystem chatSystem = new ChatSystem(3);
+
+        User alice = new User("Alice");
+        User bob = new User("Bob");
+        User char
