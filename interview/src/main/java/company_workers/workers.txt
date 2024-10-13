@@ -1,0 +1,7 @@
+1, null, Jan, Nowak
+2 , 1, Piotr, Zielonka
+3 , 1, Joseph, Santiago
+4 , 1, Maria, Perto
+5 , 2, Anna, Tarka
+6, 5, Tadek, Pal
+7, 5, Hubert, Piot

@@ -35,8 +35,6 @@ public class AVLTreeWithIndexDuplicates {
     // Insert a new value with its unique index into the AVL tree.
     public void insert(int value, int index) {
         root = insert(root, value, index);
-        //inOrderPrint(root);
-        //System.out.println("hhhhhh");
     }
 
     private Node insert(Node node, int value, int index) {
@@ -201,15 +199,15 @@ public class AVLTreeWithIndexDuplicates {
                 tree.deleteKthSmallest(value);
             }
 
-//            System.out.println("Curr tree (after " + value + " ) :");
-//            tree.inOrderPrint(tree.root);
-//            System.out.println("\n");
+            System.out.println("Curr tree (after " + value + " ) :");
+            tree.inOrderPrint(tree.root);
+            System.out.println("\n");
         }
 
         // Collect and return the remaining elements in the tree
         List<Integer> result = new ArrayList<>();
         tree.inOrder(tree.getRoot(), result);
-        //System.out.println(result);
+        System.out.println("AVL, array size: " + result.size());
         return result;
     }
 

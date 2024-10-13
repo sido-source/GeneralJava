@@ -1,7 +1,5 @@
 package com.monolith.java;
 
-import java.util.List;
-
 public class AVLTreeWithIndex {
     class Node {
         int value;

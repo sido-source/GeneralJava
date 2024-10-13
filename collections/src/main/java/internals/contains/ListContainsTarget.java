@@ -1,4 +1,4 @@
-package com.monolith.java.contains;
+package internals.contains;
 
 import java.util.Arrays;
 import java.util.List;

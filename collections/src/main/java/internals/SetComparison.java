@@ -1,4 +1,4 @@
-package com.monolith.java;
+package internals;
 
 import java.util.*;
 /*

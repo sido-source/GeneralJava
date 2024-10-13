@@ -1,0 +1,5 @@
+load to the program workers.txt file
+each user id, in first column has or may have the boss id in the second column
+
+the task is about load the workers and create the tree data structure, in which the each worker see its
+supervisors and people that are below
