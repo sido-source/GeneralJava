@@ -10,7 +10,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>javaIO</module>
-        <module>dsa</module>
+        <module>dsa-tasks</module>
         <module>streams</module>
         <module>concurrent</module>
         <module>collections</module>
