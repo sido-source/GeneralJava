@@ -32,6 +32,7 @@ public class IntroSet {
         // 3. to array
 
         String[] array = set.toArray(new String[0]);
+        //Integer[] array1 = set.toArray(new Integer[]);
         System.out.println(array[0]);  // Access element by index
 
 
@@ -39,5 +40,13 @@ public class IntroSet {
 
         String element = set.stream().reduce("", (a, b) -> a + " xd " + b);
         System.out.println(element);
+
+
+
+
+        //sorting
+        //
+        // The main issue with your code is that you're trying to use Collections.sort(s); on a Set, but Set does not support sorting because it is an unordered collection
+        // by definition. Specifically, a HashSet does not maintain any order of the elements. The Collections.sort() method is meant to work on a List, not a Set.
     }
 }

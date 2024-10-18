@@ -1,0 +1,2 @@
+
+if the method has some varibales and few if statement remember that they are all valid till there is a "continue"
