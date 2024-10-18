@@ -1,0 +1,6 @@
+when use List.of(1,2,3) it is a List of Integer which are objects List.of(1,2).stream.toArray -> Integer[]
+when we want to int[] then we can use IntStream instead IntStream.of(1,2,3).toArray() -> int[]
+
+
+Stream works with Objects
+IntStream works with primitive int
