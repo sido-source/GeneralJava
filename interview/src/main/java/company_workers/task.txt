@@ -3,3 +3,163 @@ each user id, in first column has or may have the boss id in the second column
 
 the task is about load the workers and create the tree data structure, in which the each worker see its
 supervisors and people that are below
+
+
+
+
+Sure! Here's a list of 10 subtasks for a Java interview task, which would take a developer from basic file handling through to building a tree data structure and handling relationships between employees in a hierarchical system. The task is centered around the `workers.txt` file you provided, with IDs that represent workers and their supervisors (boss IDs).
+
+### Java Interview Task: Build an Employee Hierarchy System
+
+**Task Overview:** Load the `workers.txt` file, create Employee objects, establish hierarchical relationships (supervisors and subordinates), and implement a way to query and display this hierarchy.
+
+---
+
+### 1. **Read `workers.txt` File**
+   **Objective:** Load the data from `workers.txt` into the Java program.
+   - **Description:** Implement a method to read the file line by line.
+   - **Skills Required:** File handling using `BufferedReader`, `FileReader`, or newer approaches such as `Files.readAllLines()` in Java.
+   - **Hints:**
+     - Split each line based on commas to get worker details (ID, Boss ID, First Name, Last Name).
+     - Handle potential issues such as extra spaces or missing values (e.g., `null` for no boss).
+   - **Example Methods:**
+     ```java
+     List<String[]> readWorkersFile(String filePath);
+     ```
+
+### 2. **Parse Data into Employee Objects**
+   **Objective:** Create an `Employee` class to represent workers.
+   - **Description:** Define an `Employee` class with fields such as `id`, `bossId`, `firstName`, and `lastName`. Add constructors, getters, and setters.
+   - **Skills Required:** Object-Oriented Programming, Classes, Constructors.
+   - **Hints:**
+     - Parse the read lines into `Employee` objects and store them in a collection.
+   - **Example Class:**
+     ```java
+     class Employee {
+         private int id;
+         private Integer bossId; // can be null
+         private String firstName;
+         private String lastName;
+
+         // constructor, getters, setters, etc.
+     }
+     ```
+
+### 3. **Store Employees in a Collection**
+   **Objective:** Store all employees in a suitable data structure.
+   - **Description:** Store the created `Employee` objects in a collection such as `HashMap<Integer, Employee>`, where the key is the employee's ID.
+   - **Skills Required:** Collections, Maps.
+   - **Example Method:**
+     ```java
+     Map<Integer, Employee> loadEmployees(List<String[]> workerData);
+     ```
+
+### 4. **Build Employee Hierarchy**
+   **Objective:** Create the hierarchical structure of employees and supervisors.
+   - **Description:** Link each employee with their direct supervisor based on the `bossId` field. This can be done using a `Map<Integer, Employee>` to map IDs to employees, and then for each employee, setting their supervisor and subordinates.
+   - **Skills Required:** HashMap, Nested Data Structures.
+   - **Example Methods:**
+     ```java
+     void assignSupervisorsAndSubordinates(Map<Integer, Employee> employees);
+     ```
+
+### 5. **Handle Missing or Null Boss IDs**
+   **Objective:** Ensure that employees without supervisors are treated correctly.
+   - **Description:** Employees with a `null` or missing boss should be considered top-level employees (CEOs or department heads).
+   - **Skills Required:** Handling `null`, Conditional Logic.
+   - **Hints:**
+     - The root of the hierarchy is an employee with no supervisor (`bossId == null`).
+
+### 6. **Add Methods to Find Supervisors and Subordinates**
+   **Objective:** Implement methods in the `Employee` class to find an employee's supervisors and subordinates.
+   - **Description:** Each employee can have a reference to their supervisor (if any) and a list of their subordinates. Add methods like `getSupervisor()` and `getSubordinates()`.
+   - **Skills Required:** Relationships in Object-Oriented Programming.
+   - **Example Methods:**
+     ```java
+     Employee getSupervisor();
+     List<Employee> getSubordinates();
+     ```
+
+### 7. **Display Employee Hierarchy**
+   **Objective:** Implement a method to display the hierarchy of an employee.
+   - **Description:** Create a method that takes an employee ID and prints the hierarchy of that employee. This should show both the employee's supervisor (if any) and their subordinates.
+   - **Skills Required:** Recursion (for hierarchical traversal), Data Formatting.
+   - **Example Method:**
+     ```java
+     void printEmployeeHierarchy(int employeeId, Map<Integer, Employee> employees);
+     ```
+
+### 8. **Find All Top-Level Employees**
+   **Objective:** Write a method that lists all top-level employees (those without supervisors).
+   - **Description:** This method should find all employees with `null` boss IDs and return them.
+   - **Skills Required:** Traversing collections, Filtering.
+   - **Example Method:**
+     ```java
+     List<Employee> findTopLevelEmployees(Map<Integer, Employee> employees);
+     ```
+
+### 9. **Implement a Search Functionality**
+   **Objective:** Add functionality to search for an employee by name.
+   - **Description:** Implement a search function that, given a first or last name, returns the matching employee(s).
+   - **Skills Required:** String Manipulation, Searching in Collections.
+   - **Example Method:**
+     ```java
+     Employee searchEmployeeByName(String name, Map<Integer, Employee> employees);
+     ```
+
+### 10. **Extend Functionality: Display Full Reporting Chain**
+   **Objective:** Write a method that returns the full reporting chain for a given employee.
+   - **Description:** Given an employee ID, return all their supervisors in the hierarchy (i.e., their supervisor, their supervisor's supervisor, etc.).
+   - **Skills Required:** Recursion or Iterative Traversal, Depth-First Search.
+   - **Example Method:**
+     ```java
+     List<Employee> getReportingChain(int employeeId, Map<Integer, Employee> employees);
+     ```
+
+---
+
+### Bonus Suggestions:
+- **Test Cases:** Write unit tests to ensure the methods behave correctly for different scenarios (e.g., an employee with no supervisor, employees with multiple subordinates).
+- **Edge Case Handling:** Handle edge cases like circular dependencies (if an employee’s boss is somehow set to a subordinate).
+- **Interactive Console Application:** Allow users to input commands like “find employee by name” or “show hierarchy” for an interactive console experience.
+
+---
+
+### Sample Java Classes and Methods
+
+Here’s a quick starter for the `Employee` class and the basic structure of the program:
+
+```java
+class Employee {
+    private int id;
+    private Integer bossId;
+    private String firstName;
+    private String lastName;
+    private Employee supervisor;
+    private List<Employee> subordinates = new ArrayList<>();
+
+    // Constructor, Getters, Setters
+
+    public void addSubordinate(Employee subordinate) {
+        this.subordinates.add(subordinate);
+    }
+
+    public void setSupervisor(Employee supervisor) {
+        this.supervisor = supervisor;
+    }
+
+    public List<Employee> getSubordinates() {
+        return subordinates;
+    }
+
+    public Employee getSupervisor() {
+        return supervisor;
+    }
+
+    public String toString() {
+        return firstName + " " + lastName + " (ID: " + id + ")";
+    }
+}
+```
+
+This approach will take a developer through a full-stack problem from file handling, through OOP relationships, to advanced hierarchical traversal, providing a rich set of tasks for interview or practice.

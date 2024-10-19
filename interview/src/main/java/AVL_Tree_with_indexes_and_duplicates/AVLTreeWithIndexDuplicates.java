@@ -199,9 +199,9 @@ public class AVLTreeWithIndexDuplicates {
                 tree.deleteKthSmallest(value);
             }
 
-            System.out.println("Curr tree (after " + value + " ) :");
-            tree.inOrderPrint(tree.root);
-            System.out.println("\n");
+            //System.out.println("Curr tree (after " + value + " ) :");
+            //tree.inOrderPrint(tree.root);
+            //System.out.println("\n");
         }
 
         // Collect and return the remaining elements in the tree
