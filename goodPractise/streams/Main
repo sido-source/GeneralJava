@@ -4,3 +4,6 @@ when we want to int[] then we can use IntStream instead IntStream.of(1,2,3).toAr
 
 Stream works with Objects
 IntStream works with primitive int
+
+To iterate:
+foreach on Objects

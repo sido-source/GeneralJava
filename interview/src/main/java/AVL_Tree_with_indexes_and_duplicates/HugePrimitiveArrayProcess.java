@@ -5,7 +5,6 @@ import java.time.Instant;
 import java.util.*;
 import java.util.concurrent.Callable;
 
-import com.monolith.java.*;
 import com.monolith.java.AVLTreeWithIndexDuplicates;
 
 
@@ -69,13 +68,9 @@ public class HugePrimitiveArrayProcess {
         List<Integer> resp = new ArrayList<>(1_000_000_00);
         Random random = new Random();
 
-//        for (int i = 0; i < 1_000_000_0; i++) {
-//            int num = random.nextInt(1_000) - 500;  // Range between -500 and 500
-//            resp.add(num);
-//        }
 
-        for (int i = 0; i < 1_0; i++) {
-            int num = random.nextInt(1_0) - 5;  // Range between -500 and 500
+        for (int i = 0; i < 1_000_000_0; i++) {
+            int num = random.nextInt(1_000_000_0) - 5_000_000;  // Range between -5_000_000 and 5_000_000
             resp.add(num);
         }
         return resp;
@@ -139,5 +134,5 @@ public class HugePrimitiveArrayProcess {
             System.out.println(taskName + " completed in " + duration.toMillis() + " milliseconds.");
         }
     }
-}
 
+}
