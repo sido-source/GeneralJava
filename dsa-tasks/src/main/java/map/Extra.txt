@@ -1,0 +1,49 @@
+what is wrong in this code : public List<List<String>> groupAnagrams(String[] strs) {
+
+        Map<int[], List<String>> map = new HashMap<>();
+        for (String s : strs) {
+            int[] localAlph = new int[26];
+
+            // update localAph key array
+            for (char c : s.toCharArray()) {
+                localAlph[c-'a']++;
+            }
+            // update map
+
+            if (map.containsKey(localAlph) && !map.get(localAlph).isEmpty()) {
+                List<String> currList = map.get(localAlph);
+                currList.add(s);
+                map.put(localAlph, currList);
+            } else {
+                map.put(localAlph, List.of(s));
+            }
+
+        }
+
+        List<List<String>> res = new ArrayList<>();
+        for(Map.Entry<int[], List<String>> entry : map.entrySet()) {
+            res.add(entry.getValue());
+        }
+
+        return res;
+    }?
+
+
+
+
+    Output
+    [["ate"],["tea"],["bat"],["eat"],["nat"],["tan"]]
+    Expected
+    [["bat"],["nat","tan"],["ate","eat","tea"]]
+
+
+
+
+
+    The issue with this code lies in the way keys are stored in the HashMap. In Java, arrays use reference equality for hashCode and equals, so each int[] array is treated as a unique key even if it contains identical values. This causes the HashMap to treat different instances of int[] with the same content as different keys, resulting in incorrect grouping of anagrams.
+
+    To fix this, you should use a data structure that implements proper equals and hashCode methods for comparing the contents of the array. Here are two common solutions:
+
+    Convert int[] to a String Key: Convert localAlph to a String key that uniquely represents the character frequencies, such as by using Arrays.toString(localAlph).
+    Use List<Integer> as a Key: Convert localAlph to a List<Integer> which has equals and hashCode implemented for comparing content.
+    Here's a modified version of your code that uses the first approach, converting localAlph to a String key:

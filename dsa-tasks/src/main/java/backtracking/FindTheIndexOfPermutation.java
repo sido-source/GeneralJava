@@ -14,14 +14,14 @@ public class FindTheIndexOfPermutation {
     }
 
 
-    public static int findPermutation(int[] arr) {
-        Set<Integer> collect = Arrays.stream(arr).boxed().collect(Collectors.toSet());
-
-        // have a colllect of the nums
-
-        // start with the first letter and start create permutation
-
-        //dfs()
-    }
+//    public static int findPermutation(int[] arr) {
+//        Set<Integer> collect = Arrays.stream(arr).boxed().collect(Collectors.toSet());
+//
+//        // have a colllect of the nums
+//
+//        // start with the first letter and start create permutation
+//
+//        //dfs()
+//    }
 
 }
