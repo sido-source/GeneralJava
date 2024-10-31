@@ -27,33 +27,33 @@ public class Sorting {
     Return the sorted list: After all nodes are inserted, the list starting from dummy.next is the sorted list.
      */
 
-    public static ListNode sort(ListNode head) {
-        ListNode res = new ListNode(0);
-
-
-        while (head != null) {
-
-            // detach head from rest of the list (next elements)
-            ListNode restList = head.next;
-            head.next = null;
-
-            insertHeadToRes(head, res);
-
-            // continue loop
-            head = restList;
-        }
-    }
+//    public static ListNode sort(ListNode head) {
+//        ListNode res = new ListNode(0);
+//
+//
+//        while (head != null) {
+//
+//            // detach head from rest of the list (next elements)
+//            ListNode restList = head.next;
+//            head.next = null;
+//
+//            insertHeadToRes(head, res);
+//
+//            // continue loop
+//            head = restList;
+//        }
+//    }
 
     private static void insertHeadToRes(ListNode head, ListNode res) {
 
-        while (res != null) {
-            if (res.val > head.val) {
-                // again detach to do insertion
-                ListNode restSortedList = res.next;
-                res.val
-            }
-
-            res = res.next;
-        }
+//        while (res != null) {
+//            if (res.val > head.val) {
+//                // again detach to do insertion
+//                ListNode restSortedList = res.next;
+//                res.val
+//            }
+//
+//            res = res.next;
+//        }
     }
 }
