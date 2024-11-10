@@ -1,0 +1,32 @@
+what will happen, what will be the result of the below code if we know only that:
+fast = null;
+
+while (fast != null || fast.next != null) {
+    slow = slow.next;
+    fast = fast.next.next;
+}
+
+If fast is null, the first condition fast != null will evaluate to false.
+Java will then attempt to evaluate the second condition fast.next != null, which will throw a NullPointerException since fast is null and doesn’t have a next field.
+
+
+
+Explanation: The difference between '||' ( logical or) and '&&' ( logical and)
+
+In a logical OR (||), if the first condition is true, Java doesn't check the second condition because only
+one condition needs to be true for the entire expression to be true. However, if the first condition is false,
+Java then evaluates the second condition.
+
+In logical AND (&&) if the first condition is false the the second condition is omitted, but even though
+the first condition is met then the second condition and next also has to be true
+
+In above loop condition:
+
+
+Solution
+To avoid this error, you should use the && (logical AND) operator instead logical OR
+
+while (fast != null && fast.next != null) {
+    slow = slow.next;
+    fast = fast.next.next;
+}
