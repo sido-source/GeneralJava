@@ -8,6 +8,9 @@ public class Jump2 {
     public static void main(String[] args) {
         int[] nums = {2, 3, 1, 1, 4};
         System.out.println(jump(nums)); // Output: 2
+
+        int[] nums1 = {4, 3, 1, 1, 4};
+        System.out.println(jump(nums1)); // Output: 2
     }
 
     public static int jump(int[] nums) {
@@ -20,7 +23,7 @@ public class Jump2 {
         for (int i = 0; i < nums.length - 1; i++) {
             farthest = Math.max(farthest, i + nums[i]); // Update the farthest reach
 
-            // If we reach the end of the current range of jumps, we need to jump
+            // we are changing currentEnd to the farthest jump location
             if (i == currentEnd) {
                 jumps++;
                 currentEnd = farthest;

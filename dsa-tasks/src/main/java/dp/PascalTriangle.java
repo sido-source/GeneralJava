@@ -12,8 +12,13 @@ public class PascalTriangle {
             row.add(1);  // First element of each row
 
             // Calculate middle elements of the row based on the previous row
-            // it starts from 1 so it will be activated where i = 2.3.4.5....n
-            for (int j = 1; j < i; j++) {
+            // j starts from 1 so it will be activated where i = 2.3.4.5....n
+
+            // i tells about which level do we currently have
+            // j tells what element  do we have in the i level
+
+            for (int j = 1; j < i; j++) { // this is very important   j < i !!
+
                 row.add(triangle.get(i - 1).get(j - 1) + triangle.get(i - 1).get(j));
             }
 
