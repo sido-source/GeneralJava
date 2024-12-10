@@ -1,4 +1,4 @@
-package graph.bfs;
+package graph.multisource;
 
 import java.util.ArrayDeque;
 import java.util.Deque;

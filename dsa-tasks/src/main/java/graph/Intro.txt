@@ -1,0 +1,29 @@
+1a) Directed Graph:
+
+Can contain cycles.
+May not always have a valid topological ordering.
+
+
+1b) Directed Acyclic Graph (DAG):
+
+Has no cycles.
+Always has a valid topological ordering.
+
+When we use dfs we know that if the key :
+ - has no values then it should be appended to Stack
+ - has many values, then all values should be added first and at last the key
+
+Examples:
+In the Alien Dictionary, the graph must be a DAG for the problem to have a valid solution. If a cycle is detected, it implies invalid input.
+
+
+2) When to Use DFS with Cycle Detection and Topological Sort?
+Cycle Detection:
+
+You use cycle detection if the input graph is not guaranteed to be a DAG. For example, in problems like the Alien Dictionary, the input might contain cycles !!!
+You need to validate if the graph is a DAG first.
+In a guaranteed DAG (e.g., prerequisites graph in a course schedule problem), cycle detection is unnecessary.
+
+3) Topological Sort:
+
+You use topological sort when you need to find a valid order of nodes in a DAG. It ensures that for every directed edge
