@@ -17,10 +17,8 @@ public class PermuteNumbers {
 
         // base cases
         if (nums.length == curr.size()) {
-            System.out.println(curr);
             //res.add(curr); //is wrong. In the base case, instead of res.add(curr), you now use res.add(new ArrayList<>(curr)). This ensures you're adding a copy of curr to res so that further modifications to curr won't affect the already added permutations.
-
-// What happens if you add curr directly? If you add curr directly with res.add(curr) (without making a copy), every modification to curr will affect all elements previously added to res because you're adding the reference to the same curr list.
+            // What happens if you add curr directly? If you add curr directly with res.add(curr) (without making a copy), every modification to curr will affect all elements previously added to res because you're adding the reference to the same curr list.
             res.add(new ArrayList<>(curr));
         }
 
@@ -33,10 +31,17 @@ public class PermuteNumbers {
 
             curr.add(now);
             dfs(res, curr, nums);
-            //curr.remove(curr.size()-1); //backtract
+            //curr.remove(curr.size()-1);
             curr.removeLast(); //backtract
 
         }
 
+    }
+
+    public static void main(String[] args) {
+        PermuteNumbers p = new PermuteNumbers();
+        int[] nums = {1, 2, 3};
+        List<List<Integer>> res = p.permute(nums);
+        System.out.println(res);
     }
 }
