@@ -1,0 +1,166 @@
+To make easier, we use a graphs representation to ilustrate the problem better
+
+1. Graph Representation Template
+Most graph problems require you to build the graph first. Use an adjacency list, as it’s memory-efficient and simple to traverse.
+
+// Build the graph
+List<List<Integer>> graph = new ArrayList<>();
+for (int i = 0; i < n; i++) {
+    graph.add(new ArrayList<>());
+}
+
+// Populate the graph
+for (int[] edge : edges) {
+    graph.get(edge[0]).add(edge[1]); // Directed edge from edge[0] to edge[1]
+}
+
+2. DFS Template (Cycle Detection or Traversal)
+DFS is a key technique for detecting cycles, traversing components, or solving problems like strongly connected components.
+
+Basic DFS:
+
+private void dfs(List<List<Integer>> graph, int node, boolean[] visited) {
+    visited[node] = true; // always we set that visited to true at the beginning
+    for (int neighbor : graph.get(node)) {
+        if (!visited[neighbor]) {
+            dfs(graph, neighbor, visited);
+        }
+    }
+}
+
+DFS with Cycle Detection:
+private boolean hasCycle(List<List<Integer>> graph, int node, int[] visited) {
+    if (visited[node] == 1) return true;  // Cycle detected
+    if (visited[node] == 2) return false; // Already processed
+
+    visited[node] = 1; // Mark as visiting
+
+    // processing all neighbors
+    for (int neighbor : graph.get(node)) {
+        if (hasCycle(graph, neighbor, visited)) {
+            return true;
+        }
+    }
+    visited[node] = 2; // Mark as fully processed
+    return false;
+}
+
+
+3. Topological Sort Template
+Topological sort is used for DAGs when you want to order nodes such that all dependencies of a node are processed before the node itself.
+
+Kahn’s Algorithm (BFS):
+public int[] topologicalSort(int n, List<List<Integer>> graph) {
+    int[] indegree = new int[n];
+    for (List<Integer> edges : graph) {
+        for (int node : edges) {
+            indegree[node]++;
+        }
+    }
+
+    Queue<Integer> queue = new LinkedList<>();
+    for (int i = 0; i < n; i++) {
+        if (indegree[i] == 0) {
+            queue.offer(i); // Start with nodes having no dependencies
+        }
+    }
+
+    int[] order = new int[n];
+    int index = 0;
+
+    while (!queue.isEmpty()) {
+        int node = queue.poll();
+        order[index++] = node;
+        for (int neighbor : graph.get(node)) {
+            indegree[neighbor]--;
+            if (indegree[neighbor] == 0) {
+                queue.offer(neighbor);
+            }
+        }
+    }
+
+    return (index == n) ? order : new int[0]; // Return empty array if cycle exists
+}
+
+
+DFS-Based Topological Sort:
+private void dfsTopo(List<List<Integer>> graph, int node, boolean[] visited, Stack<Integer> stack) {
+    visited[node] = true;
+    for (int neighbor : graph.get(node)) {
+        if (!visited[neighbor]) {
+            dfsTopo(graph, neighbor, visited, stack);
+        }
+    }
+    stack.push(node); // Add to stack in postorder
+}
+
+public List<Integer> topologicalSortDFS(int n, List<List<Integer>> graph) {
+    boolean[] visited = new boolean[n];
+    Stack<Integer> stack = new Stack<>();
+
+    for (int i = 0; i < n; i++) {
+        if (!visited[i]) {
+            dfsTopo(graph, i, visited, stack);
+        }
+    }
+
+    List<Integer> result = new ArrayList<>();
+    while (!stack.isEmpty()) {
+        result.add(stack.pop());
+    }
+    return result;
+}
+
+4. Shortest Path Template
+public int shortestPath(List<List<Integer>> graph, int start, int target) {
+    Queue<Integer> queue = new LinkedList<>();
+    boolean[] visited = new boolean[graph.size()];
+    queue.offer(start);
+    visited[start] = true;
+    int steps = 0;
+
+    while (!queue.isEmpty()) {
+        int size = queue.size();
+        for (int i = 0; i < size; i++) {
+            int node = queue.poll();
+            if (node == target) return steps;
+            for (int neighbor : graph.get(node)) {
+                if (!visited[neighbor]) {
+                    visited[neighbor] = true;
+                    queue.offer(neighbor);
+                }
+            }
+        }
+        steps++;
+    }
+
+    return -1; // No path found
+}
+
+
+Dijkstra’s Algorithm (Weighted Graph):
+public int[] dijkstra(int n, List<List<int[]>> graph, int start) {
+    int[] dist = new int[n];
+    Arrays.fill(dist, Integer.MAX_VALUE);
+    dist[start] = 0;
+
+    PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a[1])); // Min-heap
+    pq.offer(new int[] {start, 0});
+
+    while (!pq.isEmpty()) {
+        int[] curr = pq.poll();
+        int node = curr[0], currDist = curr[1];
+
+        if (currDist > dist[node]) continue;
+
+        for (int[] edge : graph.get(node)) {
+            int neighbor = edge[0], weight = edge[1];
+            if (dist[node] + weight < dist[neighbor]) {
+                dist[neighbor] = dist[node] + weight;
+                pq.offer(new int[] {neighbor, dist[neighbor]});
+            }
+        }
+    }
+
+    return dist;
+}

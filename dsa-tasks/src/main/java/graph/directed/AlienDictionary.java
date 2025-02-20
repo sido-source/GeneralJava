@@ -9,7 +9,7 @@ public class AlienDictionary {
     public static void main(String[] args) {
         AlienDictionary ad = new AlienDictionary();
         String res = ad.findOrder(new String[]{"baa", "abcd", "abca", "cab", "cad"}, 4);
-        System.out.println(STR."r: \{res}"); // Output: "bdac"
+        //System.out.println(STR."r: \{res}"); // Output: "bdac"
     }
 
     public String findOrder(String[] dict, int k) {

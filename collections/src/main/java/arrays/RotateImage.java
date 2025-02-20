@@ -18,6 +18,16 @@ public class RotateImage {
             }
             System.out.println();
         }
+
+        rotateClockwiseLeft(matrix);
+
+        // Print the rotated matrix
+        for (int[] row : matrix) {
+            for (int num : row) {
+                System.out.print(num + " ");
+            }
+            System.out.println();
+        }
     }
 
     public static void rotateClockwiseRight(int[][] matrix) {
@@ -37,7 +47,7 @@ public class RotateImage {
 
         // 2. Reverse each row to achieve the 90-degree clockwise rotation
         for (int i=0; i<row; i++) {
-            for (int j = 0; j < column/2; j++) {
+            for (int j = 0; j < column/2; j++) { // the most important !!
                 int tmp = matrix[i][j];
                 matrix[i][j] = matrix[i][column-j-1];
                 matrix[i][column-j-1]= tmp;
@@ -60,7 +70,7 @@ public class RotateImage {
         }
 
         // 2. Reverse each row
-        for (int i=0; i<row/2; i++) {
+        for (int i=0; i<row/2; i++) {  // the most important !!
             for (int j=0; j < column; j++) {
                 int temp = matrix[i][j];
                 matrix[i][j] = matrix[row-i-1][j];

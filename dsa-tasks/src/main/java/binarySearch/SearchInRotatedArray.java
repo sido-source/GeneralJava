@@ -2,40 +2,32 @@ package binarySearch;
 
 public class SearchInRotatedArray {
 
-    public int search(int[] nums, int target) {
-        int left = 0, right = nums.length - 1;
-
-        while (left <= right) {
-            int mid = left + (right - left) / 2;
-
-            // Check if the middle element is the target
-            if (nums[mid] == target) {
-                return mid;
-            }
-
-            // Determine if the left half is sorted
-            if (nums[left] <= nums[mid]) {
-                // Target is in the sorted left half
-                if (target >= nums[left] && target < nums[mid]) {
-                    right = mid - 1;
-                } else { // Target is in the right half
-                    left = mid + 1;
-                }
-            } else { // Right half must be sorted
-                // Target is in the sorted right half
-                if (target > nums[mid] && target <= nums[right]) {
-                    left = mid + 1;
-                } else { // Target is in the left half
-                    right = mid - 1;
-                }
-            }
-        }
-
-        // Target was not found
-        return -1;
+    // tags: repeat
+    // https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/description/
+    // we can use binarySearch beacause we have monotonic values, we can also use True or False
+    // like {4,5,6,7,0,1,2}; becasomes T,T,T,T,T,F,F
+    public static void main(String[] args) {
+        int[] nums = {4,5,6,7,0,1,2};
+        int target = 0;
+        int result = findMin(nums);
+        System.out.println("Index of " + target + " is: " + result);
     }
 
 
+    public static int findMin(int[] nums) {
+        int left = 0, right = nums.length - 1;
+        while(left < right) {
+            int mid = left + (right - left) / 2;
+
+            if(nums[mid] < nums[right]) {
+                right = mid;
+            } else {
+                left = mid + 1;
+            }
+        }
+
+        return nums[left]; // the same nums[right]
+    }
 
     /// sol 2
 

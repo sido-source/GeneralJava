@@ -81,7 +81,7 @@ This mini-project simulates a simple banking system where users can transfer mon
    - **Key Methods**:
      - `executeTransaction(Transaction transaction)`: Submits a transaction for immediate execution.
      - `scheduleTransaction(Transaction transaction, long delay, TimeUnit unit)`: Schedules a transaction to be executed after a specified delay.
-     - `printTransactionResults()`: Retrieves and prints the results of all transactions from the queue.
+     - `printTransactionResults()`: Retrieves and prints the results of all transactions from the myFifo.
    - **Concurrency Handling**: Manages concurrent tasks and ensures results are stored and retrieved in a thread-safe manner.
 
 #### 5. **Main.java**

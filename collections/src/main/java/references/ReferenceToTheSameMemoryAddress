@@ -1,0 +1,31 @@
+int hashKey = Math.abs(key.hashCode() % capacity);
+Node<K,V> bucket = container[hashKey];
+if (bucket == null) {
+    bucket = new Node<>(key,value);
+    return;
+}
+
+
+
+what is wrong in this code ??
+
+Node<K, V> bucket = container[hashKey];
+At this point, the local variable bucket holds a reference to the same object that container[hashKey] points to. Both bucket and container[hashKey] now refer to the same memory address.
+
+If you modify the object through bucket (e.g., bucket.someField = someValue), those changes will also be visible when accessing the object via container[hashKey], because they both reference the same object.
+
+Reassigning bucket to a new object:
+
+bucket = new Node<>(key, value);
+Here, bucket is updated to point to a new Node object. However, this does not change container[hashKey]; it still points to the original object (or null if it was initially null).
+
+The reassignment only affects the local variable bucket and does not update the reference stored in container[hashKey].
+
+Solution:
+
+int hashKey = Math.abs(key.hashCode() % capacity);
+Node<K, V> bucket = container[hashKey];
+if (bucket == null) {
+    container[hashKey] = new Node<>(key, value); // Explicitly update the container
+    return;
+}

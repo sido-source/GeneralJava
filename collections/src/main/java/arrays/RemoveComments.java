@@ -5,6 +5,8 @@ import java.util.List;
 
 public class RemoveComments {
 
+        // tags: interesting
+
         public List<String> removeComments(String[] source) {
             List<String> res = new ArrayList<>();
             boolean isBlock = false; // Tracks whether we're inside a block comment
