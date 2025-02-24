@@ -1,4 +1,4 @@
-package hashMaps;
+package map;
 
 public class CustomHashMap<K, V> {
     // Implementation of a custom hashmap in Java

@@ -1,10 +1,10 @@
-package internals;
+package set;
 
 import java.util.*;
 /*
 Overview of Set Implementations
 HashSet:
-Backed by: A hash table.
+Backed by: A hash map.
 Order: Does not maintain any order of elements.
 Performance: Offers constant-time performance for basic operations like add, remove, contains, and size (O(1) on average).
 Null Handling: Allows one null element.
@@ -12,7 +12,7 @@ Use Case: When you need a collection that prevents duplicates and you don't care
 
 
 LinkedHashSet:
-Backed by: A hash table with a linked list running through it.
+Backed by: A LinkedHashMap with a linked list running through it.
 Order: Maintains insertion order.
 Performance: Slightly slower than HashSet due to the additional overhead of maintaining the linked list, but still offers constant-time performance for basic operations (O(1) on average).
 Null Handling: Allows one null element.

@@ -1,5 +1,6 @@
 package set;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -18,6 +19,8 @@ public class IntroSet {
         set.add("Element 3");
 
         Iterator<String> iterator = set.iterator();
+        String[] array1 = set.toArray(new String[2]);
+        Arrays.toString(array1);
 
         while (iterator.hasNext()) {
             String element = iterator.next();
@@ -45,7 +48,6 @@ public class IntroSet {
 
 
         //sorting
-        //
         // The main issue with your code is that you're trying to use Collections.sort(s); on a Set, but Set does not support sorting because it is an unordered collection
         // by definition. Specifically, a HashSet does not maintain any order of the elements. The Collections.sort() method is meant to work on a List, not a Set.
     }

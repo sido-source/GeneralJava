@@ -1,4 +1,4 @@
-package internals.contains;
+package list;
 
 import java.util.Arrays;
 import java.util.List;
