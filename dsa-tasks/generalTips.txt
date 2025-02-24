@@ -1,0 +1,24 @@
+
+if there is question about:
+
+- subsequent, contigues, subbarrays -> sliding window
+
+to sliding window or to optimize the algos we can use HashMap where we will have keys and values-indices of the array
+so we can use hashMap to get o(1) look up
+
+
+
+DP- use directed graph to visualize the problem
+
+when : When the problem involves non-contiguous subarrays or requires combining results from overlapping subproblems (like longest subsequences, counting paths, or multiple state decisions)
+
+LENGEST INCREEASING SUBSEQUECNECT
+LIS([3,1,8,2,5]) -> 3
+
+1) VISUALIZE
+
+3 -> 8,5
+1-> 8,2,5
+2 -> 5
+
+2) FIND SUBPROBLEM -> FOR EXAMPLE SUBSET FROM INITIAL DATA/ARRAY/LIST

@@ -1,0 +1,9 @@
+Task 1: Basic Thread Creation
+Description: Create a simple Java application where you spawn a thread that reads data from a file and prints it to the console.
+
+Steps:
+Create a class that implements the Runnable interface.
+Implement the run() method to read from a file using BufferedReader and FileReader.
+Create a Thread object with the Runnable and start the thread.
+Focus: Understanding basic thread creation, file I/O operations.
+Classes: Thread, Runnable, FileReader, BufferedReader.

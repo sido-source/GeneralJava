@@ -1,0 +1,7 @@
+we got huge size array of ints as argument to the function
+we have to iterate and in case of negative number add it to the response List if it would be positive number,
+then we have to delete the k - index from the response List, for example if response List has size 3 and we encountered
+the "1" then the first element from the response List should be deleted
+
+
+Make and function which will return the response List in efficient wat

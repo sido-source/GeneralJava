@@ -1,0 +1,11 @@
+task: 2 ways of creating Thread: class CreateThread
+other thoughts:
+Here’s a quick list of different ways to start a thread in Java:
+
+Implement Runnable (you've done this).
+Extend Thread (you've done this).
+Use ExecutorService (thread pooling and task management).
+Use Callable and Future (return values from threads).
+Use ThreadFactory (custom thread creation).
+Use Lambda expressions (simplified thread creation).
+Use CompletableFuture (async programming).

@@ -1,0 +1,150 @@
+
+There are little confusion about input output operation in Java, because there are many ways of doing it. Many of the classes have been enhanced over the years what makes it harder to understand
+where (in which situation) we should use which IO technique/method
+
+Best material: https://docs.oracle.com/javase/tutorial/essential/io/streams.html
+
+------------------------------------------------------------------------------------------------------------------------
+
+There are 2 main packages : java.io and java.nio
+
+java.io ->
+uses streams in order to read/write
+A stream is a sequence of data. A program uses an input stream to read data from a source, one item at a time
+A program uses an output stream to write data to a destination, one item at time
+
+java.nio ->
+uses buffers
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+Tasks related to Path:
+
+BlockCode1
+Overview of the java.io.File (it is a path representation not the normal file)
+Overview of the java.nio.file.Path (special class which can NullPointerException if the Path is null)
+Overview of the FileSystem class
+
+BlockCode2
+Path Creation and Validation using java.nio
+Check if the given path exist, if it is a file or directory
+
+
+BlockCode3
+Creating Files and Directories
+
+BlockCode4
+Deleting Files and Directories
+Copy files using java.nio
+
+BLockCode5
+Checking and setting file permissions
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+ -> Task 1: Create and Read a Text File
+
+
+1. Create a file at a specified path using `File`.
+2. Write some text to the file using `BufferedWriter` with UTF-8 encoding.
+3. Read the file using `BufferedReader` and output its contents to the console.
+
+Other: there are 2 paths: absolute, relative (relative according to root dir)
+Character encoding is a technique to convert text data into binary numbers
+
+
+
+ -> Task 2: Convert File Charset
+1. Create a text file with content in UTF-8 encoding.
+2. Read the file and convert its content to Windows-1250 encoding.
+3. Write the converted content to a new file.
+
+hint:
+
+String objects in Java are immutable, which means once a string is created, its encoding can't be changed. We have to create a new String a decode bytes !
+
+There are 2 places when we can specify Charset (encoding/decoding)
+- at stream level   (cant understand whether to use InputStreamWriter/FileWriter with some Charset)
+- at read level -> string line = bufferedReader.readLine()    (we can read the String to bytes and then decode or use charset encode and decode)
+
+
+Input file (ISO-8859-8) -> BufferedReader -> String (Unicode) -> OutputStreamWriter (Windows-1250) -> Output file (Windows-1250)
+  'נ' (ISO-8859-8)        ->          U+05E0 (Unicode)        ->          0xF2 (Windows-1250)        -> 'ð' (Windows-1250)
+
+
+
+-> Task 3: Copy a File
+1. Create a method that takes two file paths as input: a source file and a destination file.
+2. Use `FileInputStream` and `FileOutputStream` to copy the content from the source file to the destination file.
+
+Notes:
+InputStream is an abstract class with 2 set variables
+
+
+public abstract class InputStream implements Closeable {
+
+    // MAX_SKIP_BUFFER_SIZE is used to determine the maximum buffer size to
+    // use when skipping.
+    private static final int MAX_SKIP_BUFFER_SIZE = 2048;
+
+    private static final int DEFAULT_BUFFER_SIZE = 16384;
+
+    readNBytes(int len)
+    /**
+     * Returns the unique {@link java.nio.channels.FileChannel FileChannel}
+     * object associated with this file input stream.
+     *
+     * <p> The initial {@link java.nio.channels.FileChannel#position()
+     * position} of the returned channel will be equal to the
+     * number of bytes read from the file so far.  Reading bytes from this
+     * stream will increment the channel's position.  Changing the channel's
+     * position, either explicitly or by reading, will change this stream's
+     * file position.
+     *
+     * @return  the file channel associated with this file input stream
+     *
+     * @since 1.4
+     */
+
+
+    Implementation InputStream by FileInputStream
+    private volatile FileChannel channel;
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+Task related to character files with Charset
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+-> Task4
+Read and Write Binary Files
+1. Create a method that generates a byte array representing some data (e.g., an image or a serialized object).
+2. Write the byte array to a file using `FileOutputStream`.
+3. Read the byte array back from the file using `FileInputStream` and verify the content.
+
+
+
+Notes:
+
+FileChannel: FileChannel is part of the java.nio.channels package and is used for reading, writing, mapping, and manipulating files. It provides a more efficient way to read and write files by using a buffer and operating directly on the file system's native I/O operations.
+
+ByteBuffer: We use a ByteBuffer to temporarily hold the file data being transferred. A direct buffer is allocated using ByteBuffer.allocateDirect(), which typically provides better performance for I/O operations as it allows the JVM to use native I/O operations directly.
+
+Buffer Size: The buffer size can be adjusted according to the system's performance characteristics and the file sizes you expect to handle. In this example, an 8KB buffer is used.
+
+Efficient File Transfer: The while loop reads data from the source file channel into the buffer, then writes from the buffer to the destination file channel. This loop continues until the entire file is copied.
+
+flip() and clear():
+buffer.flip(): Prepares the buffer for reading by setting the limit to the current position and the position to zero.
+buffer.clear(): Prepares the buffer for writing by setting the limit to the buffer's capacity and the position to zero.
+
+Advantages of Using NIO
+
+Performance: Using FileChannel with direct buffers can offer significant performance improvements, especially for large files, by minimizing the overhead of multiple method calls and leveraging native I/O operations.
+Non-Blocking I/O: Although not used in this example, java.nio provides non-blocking I/O capabilities, which can be useful for building scalable applications.
+Memory-Mapped Files: FileChannel also supports memory-mapped files, which can be used to map a region of a file directly into memory for fast access.

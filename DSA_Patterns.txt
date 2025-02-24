@@ -1,0 +1,46 @@
+
+use while loop if the algo needs something custom way of iterating, like
+
+use for loop when we have iterate one by one and it is it, like we have to see all elements to find something
+
+# EXAMPLE 1
+
+while ( ) {
+
+    // for example rows
+    for () { }
+
+    // for example columns
+    for() { }
+
+    // some extra logic with pointers
+}
+
+
+# EXAMPLE 2
+
+for () {
+
+    // sliding window, we shrink the left pointer, for example the current sum is too big, we encountered some duplicate of the char/letter
+    while () {
+
+    }
+
+}
+
+
+
+# EXAMPLE 3
+        // for with external pointer
+
+
+        int indexS = 0;
+
+        for (Character c : t.toCharArray()) {
+            if (s.charAt(indexS) == c) {
+                indexS++;
+                if (indexS == s.length()){
+                    return true;
+                }
+            }
+        }

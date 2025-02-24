@@ -1,0 +1,40 @@
+A race condition occurs when multiple threads attempt to modify a shared resource concurrently without proper synchronization, leading to unpredictable or incorrect behavior. In this mini-project, a race condition could happen in the following scenario:
+
+Example of a Race Condition
+Concurrent Transactions:
+Suppose Alice tries to send $200 to Bob, and at the same time, Bob tries to send $100 to Charlie. Both transactions access and modify Bob's balance concurrently.
+If these transactions are not synchronized, it's possible that:
+Thread 1 (Alice's transaction) reads Bob's balance as $500.
+Thread 2 (Bob's transaction) reads Bob's balance as $500.
+Thread 1 deducts $200, leaving the balance at $300, but has not yet updated the balance.
+Thread 2 deducts $100, assuming the balance is still $500, leaving the balance at $400.
+Both transactions then update the balance, with the final balance potentially set to $400, incorrectly reflecting the operations.
+Prevention Using ReentrantLock
+To prevent race conditions, we use ReentrantLock:
+
+Isolation of Critical Sections:
+
+The ReentrantLock is used to ensure that only one thread can execute the critical section (withdrawing or depositing money) at a time for a given user.
+When a thread acquires the lock for a user (e.g., Bob), no other thread can acquire the same lock until the first thread releases it.
+Locking Per User:
+
+The ReentrantLock in the User class is associated with each individual user, meaning that when the lock is held by one thread (e.g., when Bob's balance is being modified), no other thread can modify Bob's balance.
+This isolation ensures that any concurrent deposit or withdrawal operation on the same user is serialized, thus preventing race conditions.
+How ReentrantLock Works
+Lock Acquisition:
+
+When a thread enters a synchronized block protected by a ReentrantLock, it attempts to acquire the lock. If another thread already holds the lock, the current thread is blocked until the lock is released.
+Single Thread Access:
+
+While a thread holds the lock, it can re-enter the synchronized block (if necessary), hence the name "Reentrant". However, no other thread can enter the block until the lock is released.
+Lock Release:
+
+After the critical operation is completed, the thread releases the lock, allowing other threads to acquire it and proceed with their operations.
+Analogous to a Flag:
+
+The ReentrantLock can indeed be thought of as a flag that indicates whether a resource is currently being used. Only one thread can "raise the flag" (acquire the lock), and other threads must wait until the flag is lowered (lock is released) to access the resource.
+Summary
+ReentrantLock is essential for preventing race conditions by ensuring that critical sections of code (like balance updates) are executed by only one thread at a time.
+The lock is isolated per user, meaning it only affects the operations on that specific user's balance, allowing other users' operations to proceed concurrently.
+Without ReentrantLock, multiple threads could modify the same balance simultaneously, leading to incorrect results.
+By implementing ReentrantLock, we ensure that the banking transactions are processed safely and consistently, even in a multithreaded environment.

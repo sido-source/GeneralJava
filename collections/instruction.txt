@@ -1,0 +1,1 @@
+Set is always unorder and unique, but there is hard to get some specific value from it(iterating), hard to delete as well

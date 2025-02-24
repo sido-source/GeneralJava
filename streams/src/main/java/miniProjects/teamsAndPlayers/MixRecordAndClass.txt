@@ -1,0 +1,135 @@
+When you have a **nested collection** in a record, you can declare the type of the nested collection using **normal classes** (like `List`, `Set`, or `Map`), or you can use **records** for the elements inside the collection. Java records are just a special type of class designed for immutability and data encapsulation, but you are not required to use them for nested data. You can mix records with regular classes, depending on your requirements.
+
+Let me explain both approaches with examples.
+
+### 1. **Nested Collection with Normal Class**
+If the elements in your nested collection don't need to be immutable or don't require the benefits of records, you can use normal Java classes within the record.
+
+#### Example with Normal Class Inside a Record
+
+Let's assume you have a `Person` record that contains a list of `Address` objects, and `Address` is a normal Java class:
+
+```java
+import java.util.List;
+
+public record Person(String name, int age, List<Address> addresses) {}
+
+class Address {
+    private String city;
+    private String street;
+
+    public Address(String city, String street) {
+        this.city = city;
+        this.street = street;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    @Override
+    public String toString() {
+        return "Address{" + "city='" + city + '\'' + ", street='" + street + '\'' + '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Address)) return false;
+        Address address = (Address) o;
+        return city.equals(address.city) && street.equals(address.street);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(city, street);
+    }
+}
+```
+
+Here:
+- `Person` is a **record** with a nested collection `List<Address>`.
+- `Address` is a **normal class** with `city` and `street` fields.
+
+You can still benefit from immutability in the `Person` record, even if `Address` is a regular mutable class. However, the elements in the `addresses` list could be modified if the list itself is mutable.
+
+### 2. **Nested Collection with Records**
+Alternatively, if you want to enforce immutability for the nested collection elements as well, you can use a **record** for the elements inside the collection. Records guarantee immutability, which can be beneficial when designing data structures where you want to ensure that no object state is modified.
+
+#### Example with Record Inside a Record
+
+Let's modify the previous example, making `Address` a **record** instead of a normal class:
+
+```java
+import java.util.List;
+
+public record Person(String name, int age, List<Address> addresses) {}
+
+public record Address(String city, String street) {}
+```
+
+Here:
+- Both `Person` and `Address` are records.
+- **Records are immutable**, so both the `Person` and `Address` fields cannot be modified after instantiation.
+
+This means:
+- Once a `Person` record is created, its `name`, `age`, and `addresses` cannot be changed.
+- The individual `Address` objects inside the `addresses` list are also immutable.
+
+### Key Points About Mixing Records and Normal Classes:
+
+- **Immutability**: Records are inherently immutable. If you want the nested collection elements to be immutable, declare them as records. However, if immutability is not a concern for the nested elements, a normal class is sufficient.
+
+- **Collections**: Even if the collection inside a record is a regular class (like `List<Address>`), the collection itself could be mutable if you use a mutable type (like `ArrayList`). If you want full immutability, consider using **immutable collections** (e.g., `List.of(...)`) or wrapping the collection in an unmodifiable version (`Collections.unmodifiableList(...)`).
+
+### Example of Immutable List with Nested Records:
+
+```java
+import java.util.List;
+
+public record Person(String name, int age, List<Address> addresses) {}
+
+public record Address(String city, String street) {}
+
+public class Main {
+    public static void main(String[] args) {
+        Address address1 = new Address("New York", "5th Avenue");
+        Address address2 = new Address("Los Angeles", "Sunset Boulevard");
+
+        // Use an immutable list for addresses
+        List<Address> addressList = List.of(address1, address2);
+
+        Person person = new Person("John", 30, addressList);
+
+        // This line would throw an UnsupportedOperationException because the list is immutable
+        // person.addresses().add(new Address("Chicago", "Michigan Avenue"));
+
+        System.out.println(person);
+    }
+}
+```
+
+Here:
+- `List.of()` creates an **immutable list** for `addresses`, preventing modifications to the list itself.
+- Both `Person` and `Address` are records, so the objects themselves are immutable.
+
+### When to Use a Record vs. a Normal Class:
+
+1. **Use a Record** when:
+   - You want **immutability** for both the record and its fields.
+   - You need concise and boilerplate-free data objects.
+   - You need a clear, read-only DTO (Data Transfer Object).
+
+2. **Use a Normal Class** when:
+   - You need **mutability** for the fields or the objects inside the collection.
+   - You need more complex behavior (e.g., additional methods, custom business logic) beyond simple data storage.
+
+### Conclusion:
+- **Records** are great when you want immutability and a clear, concise data object.
+- You can use **normal classes** inside a record if you don’t need the immutability or simplicity of records.
+- For **nested collections**, you can mix records and normal classes depending on your requirements, but if immutability is critical, prefer using records and immutable collections.
+

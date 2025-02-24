@@ -1,0 +1,25 @@
+The Stream API works with objects, not primitives like int, char, long
+
+
+when we have ints 1,2,3,4,5,6,7,8 -> the Arrays.stream(ints) will be the IntStream
+when we have chars 'a','c','t' -> the Arrays.stream(chars) will wont work
+when we have doubles 1.23, 4.54, 67.56 -> the Arrays.stream(double) will be the DoubleStream
+when we have strings "1.23s", "4.54z", "zd67.56e" -> the Arrays.stream(strings) will be the Stream of Objects ("Stream<E>")
+
+map is always 1 : 1 (one on the input gives some output)
+flatMap can have 0:many 1:many
+
+boxed() wrap the primitive to Object (Stream)
+unboxed() unwrap Object to primitive (IntStream)
+
+reduce - with accumulator to reduce the collection into single item or into accumulator which cane be the List
+
+What Does mapToObj() Do?
+
+The mapToObj() method is used to convert each primitive element in a primitive stream (like IntStream, LongStream, or DoubleStream) into an object by applying a given mapping function. The result is a Stream of objects (Stream<T>), where T is the type returned by the mapping function.
+
+It doesn’t directly detect the wrapper class of a primitive. Instead, it simply applies the provided mapping function to each element, which can convert the primitive to its corresponding object type (or any other object).
+
+Key Points About mapToObj():
+It takes a function as an argument, which converts each primitive element in the stream to an object.
+It returns a Stream of objects (Stream<T>), where T is the type returned by the mapping function.
