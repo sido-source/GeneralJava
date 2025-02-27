@@ -1,9 +1,8 @@
-package functional.comparator;
+package com.monolith.java.comparator;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.*;
 
 // Vehicle class definition
 class Vehicle {

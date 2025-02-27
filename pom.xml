@@ -18,6 +18,8 @@
         <module>dsa-tasks</module>
         <module>spring-jpa</module>
         <module>interview</module>
+        <module>oop</module>
+        <module>functional</module>
     </modules>
 
     <properties>
